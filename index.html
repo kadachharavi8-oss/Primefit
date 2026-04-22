@@ -250,3 +250,133 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrimeFit Elite Business</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #080808; --neon: #ccff00; --glass: rgba(255, 255, 255, 0.05); --text: #ffffff; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; }
+        
+        /* Typography & Layout */
+        .header { padding: 30px 20px; border-bottom: 1px solid #222; }
+        .header h1 { font-weight: 900; font-size: 24px; color: var(--neon); margin: 0; text-transform: uppercase; }
+        
+        .container { padding: 20px; display: none; animation: slideUp 0.4s ease; }
+        .container.active { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card { background: var(--glass); backdrop-filter: blur(15px); border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.08); }
+        h3 { color: var(--neon); font-size: 14px; text-transform: uppercase; margin-top: 0; letter-spacing: 1px; }
+
+        /* Training & Diet Lists */
+        .list-item { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .tag { font-size: 10px; padding: 4px 8px; border-radius: 4px; background: var(--neon); color: black; font-weight: bold; }
+
+        /* Routine Checklist */
+        .check-item { display: flex; align-items: center; gap: 15px; padding: 10px 0; border-bottom: 1px solid #222; }
+        input[type="checkbox"] { accent-color: var(--neon); width: 20px; height: 20px; }
+
+        /* Store (Affiliate) */
+        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .product-card { background: #111; padding: 10px; border-radius: 15px; text-align: center; }
+        .product-card img { width: 100%; border-radius: 10px; margin-bottom: 10px; }
+        .price { color: var(--neon); font-weight: 700; display: block; margin: 5px 0; }
+        .buy-btn { background: var(--neon); color: black; border: none; padding: 8px; width: 100%; border-radius: 8px; font-weight: 700; font-size: 12px; text-decoration: none; display: inline-block; }
+
+        /* Nav Bar */
+        .nav-bar { position: fixed; bottom: 15px; left: 15px; right: 15px; background: rgba(0,0,0,0.9); border-radius: 25px; display: flex; justify-content: space-around; padding: 15px 0; border: 1px solid #333; box-shadow: 0 0 30px rgba(0,0,0,1); z-index: 1000; }
+        .nav-item { color: #555; font-size: 9px; font-weight: 700; text-align: center; cursor: pointer; text-transform: uppercase; }
+        .nav-item.active { color: var(--neon); }
+        .nav-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>PRIMEFIT ELITE</h1>
+    <p style="font-size: 10px; opacity: 0.5;">PREMIUM PERFORMANCE DASHBOARD</p>
+</div>
+
+<div id="train" class="container active">
+    <h3>Strength & Cardio</h3>
+    <div class="card">
+        <div class="list-item"><span>Pull-ups (Strength)</span><span class="tag">Daily</span></div>
+        <div class="list-item"><span>Shadow Boxing (Cardio)</span><span class="tag">20 Min</span></div>
+        <div class="list-item"><span>Sprint Drills (Agility)</span><span class="tag">Income Tax Prep</span></div>
+    </div>
+    <div class="card">
+        <h3>Log Session</h3>
+        <input type="text" id="logAct" placeholder="Activity Name" style="width:100%; padding:10px; margin-bottom:10px; background:#222; border:none; color:white; border-radius:8px;">
+        <button onclick="saveLog()" style="width:100%; padding:12px; background:var(--neon); border:none; border-radius:8px; font-weight:700;">SAVE ACTIVITY</button>
+    </div>
+</div>
+
+<div id="diet" class="container">
+    <h3>Elite Nutrition Plan</h3>
+    <div class="card">
+        <div class="list-item"><span>Morning: Boiled Eggs & Oats</span></div>
+        <div class="list-item"><span>Lunch: Chicken/Paneer & Brown Rice</span></div>
+        <div class="list-item"><span>Pre-Workout: Banana & Black Coffee</span></div>
+        <div class="list-item"><span>Dinner: Soya Chunks & Salad</span></div>
+    </div>
+</div>
+
+<div id="routine" class="container">
+    <h3>Daily Discipline</h3>
+    <div class="card">
+        <div class="check-item"><input type="checkbox"> Read for 1 Hour</div>
+        <div class="check-item"><input type="checkbox"> Cricket Practice</div>
+        <div class="check-item"><input type="checkbox"> 4L Water Intake</div>
+        <div class="check-item"><input type="checkbox"> AI Skill Learning</div>
+    </div>
+</div>
+
+<div id="store" class="container">
+    <h3>Elite Store & Gear</h3>
+    <div class="product-grid">
+        <div class="product-card">
+            <img src="https://m.media-amazon.com/images/I/61NfX7K+i+L._AC_UX679_.jpg" alt="Gym Shirt">
+            <span style="font-size:12px;">Elite Compression Tee</span>
+            <span class="price">₹799</span>
+            <a href="#" class="buy-btn">SHOP NOW</a>
+        </div>
+        <div class="product-card">
+            <img src="https://m.media-amazon.com/images/I/71pXF6x5j0L._AC_SX679_.jpg" alt="Gloves">
+            <span style="font-size:12px;">Cricket Batting Gloves</span>
+            <span class="price">₹1,499</span>
+            <a href="#" class="buy-btn">SHOP NOW</a>
+        </div>
+    </div>
+    <p style="text-align:center; font-size:10px; opacity:0.5; margin-top:20px;">*Affiliate Links: Support PrimeFit Elite</p>
+</div>
+
+<nav class="nav-bar">
+    <div class="nav-item active" onclick="showTab('train', this)"><span class="nav-icon">⚡</span>Train</div>
+    <div class="nav-item" onclick="showTab('diet', this)"><span class="nav-icon">🥗</span>Diet</div>
+    <div class="nav-item" onclick="showTab('routine', this)"><span class="nav-icon">📅</span>Routine</div>
+    <div class="nav-item" onclick="showTab('store', this)"><span class="nav-icon">🛒</span>Store</div>
+</nav>
+
+<script>
+    function showTab(tabId, el) {
+        document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        el.classList.add('active');
+    }
+
+    function saveLog() {
+        const act = document.getElementById('logAct').value;
+        if(act) {
+            alert("Activity Saved to Local Storage!");
+            document.getElementById('logAct').value = '';
+        }
+    }
+</script>
+
+</body>
+</html>
