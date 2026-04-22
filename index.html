@@ -3,91 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrimeFit Pro</title>
+    <title>PrimeFit Elite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #121212; --accent: #ccff00; --card: #1e1e1e; --text: #ffffff; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 80px; }
-        .header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
-        .header h1 { color: var(--accent); margin: 0; font-size: 22px; letter-spacing: 1px; }
-        
-        .container { padding: 20px; display: none; }
-        .container.active { display: block; }
-        
-        .card { background: var(--card); padding: 20px; border-radius: 16px; margin-bottom: 15px; border: 1px solid #333; }
-        h3 { margin-top: 0; color: var(--accent); font-size: 16px; text-transform: uppercase; border-left: 4px solid var(--accent); padding-left: 10px; }
-        
-        input { width: 100%; padding: 12px; margin: 10px 0; background: #2a2a2a; border: 1px solid #444; border-radius: 8px; color: white; box-sizing: border-box; }
-        button { width: 100%; padding: 14px; background: var(--accent); border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 14px; }
-        
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #1a1a1a; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #333; box-shadow: 0 -5px 15px rgba(0,0,0,0.5); }
-        .nav-item { color: #888; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: 0.3s; }
-        .nav-item.active { color: var(--accent); transform: scale(1.1); }
-        .nav-icon { font-size: 20px; margin-bottom: 4px; }
+        :root {
+            --bg: #080808;
+            --glass: rgba(255, 255, 255, 0.05);
+            --neon: #ccff00;
+            --neon-glow: 0 0 15px rgba(204, 255, 0, 0.4);
+            --text: #ffffff;
+        }
 
-        .log-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #333; font-size: 14px; }
-        .log-item b { color: var(--accent); }
-        .water-count { font-size: 45px; text-align: center; margin: 15px 0; color: #00a2ff; font-weight: bold; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg);
+            background-image: radial-gradient(circle at top right, #1a1a1a, #080808);
+            color: var(--text);
+            margin: 0;
+            padding-bottom: 90px;
+            overflow-x: hidden;
+        }
+
+        .header {
+            padding: 30px 20px;
+            text-align: left;
+        }
+
+        .header h1 {
+            font-weight: 900;
+            font-size: 28px;
+            letter-spacing: -1px;
+            margin: 0;
+            background: linear-gradient(to right, #fff, #ccff00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .container {
+            padding: 0 20px;
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .container.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        h3 { font-size: 14px; text-transform: uppercase; letter-spacing: 2px; color: var(--neon); margin-top: 0; margin-bottom: 20px; }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            margin-bottom: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: white;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: var(--neon);
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            color: black;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: var(--neon-glow);
+            transition: 0.3s;
+        }
+
+        button:active { transform: scale(0.95); }
+
+        /* Progress Circle for Water */
+        .circle-box { position: relative; width: 150px; height: 150px; margin: 20px auto; }
+        .circle-svg { transform: rotate(-90deg); width: 150px; height: 150px; }
+        .circle-bg { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 10; }
+        .circle-progress { 
+            fill: none; stroke: #00a2ff; stroke-width: 10; 
+            stroke-dasharray: 440; stroke-dashoffset: 440; 
+            stroke-linecap: round; transition: stroke-dashoffset 1s ease-in-out;
+            filter: drop-shadow(0 0 5px #00a2ff);
+        }
+        .circle-text { 
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            font-size: 24px; font-weight: 700; color: #00a2ff;
+        }
+
+        .log-item {
+            background: rgba(255,255,255,0.03);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-item {
+            color: #555;
+            text-align: center;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .nav-item.active { color: var(--neon); }
+        .nav-icon { font-size: 22px; margin-bottom: 4px; display: block; }
+
     </style>
 </head>
 <body>
 
 <div class="header">
-    <h1>PRIMEFIT PRO</h1>
-    <span id="curDate" style="font-size: 11px; opacity: 0.6;"></span>
+    <h1>PRIMEFIT ELITE</h1>
+    <p id="dateDisp" style="opacity: 0.4; font-size: 12px; margin: 5px 0;"></p>
 </div>
 
 <div id="workout" class="container active">
     <div class="card">
-        <h3>Log Exercise</h3>
-        <input type="text" id="exName" placeholder="Exercise (e.g. Pull-ups)">
-        <input type="number" id="exReps" placeholder="Reps / Count">
-        <button onclick="saveWorkout()">SAVE WORKOUT</button>
+        <h3>Power Log</h3>
+        <input type="text" id="exName" placeholder="Activity (e.g. Cricket Drills)">
+        <input type="number" id="exReps" placeholder="Reps / Minutes">
+        <button onclick="saveWorkout()">Save Session</button>
     </div>
-    <div class="card">
-        <h3>Recent Activity</h3>
-        <div id="workoutLogs"></div>
-    </div>
+    <div id="workoutLogs"></div>
 </div>
 
 <div id="water" class="container">
-    <div class="card" style="text-align: center;">
-        <h3>Water Intake</h3>
-        <div class="water-count" id="waterDisplay">0 L</div>
-        <p style="font-size: 14px; opacity: 0.7;">Daily Goal: 4 Liters</p>
-        <button style="background: #00a2ff; color: white;" onclick="addWater()">+ ADD 0.5L WATER</button>
-        <button style="background: transparent; color: #ff4444; margin-top: 15px; font-size: 12px;" onclick="resetWater()">Reset Today's Water</button>
+    <div class="card" style="text-align:center;">
+        <h3>Hydration Goal</h3>
+        <div class="circle-box">
+            <svg class="circle-svg">
+                <circle class="circle-bg" cx="75" cy="75" r="70"></circle>
+                <circle id="waterCircle" class="circle-progress" cx="75" cy="75" r="70"></circle>
+            </svg>
+            <div class="circle-text" id="waterVal">0L</div>
+        </div>
+        <p style="opacity: 0.5; font-size: 12px;">Daily Target: 4.0 Liters</p>
+        <button style="background: #00a2ff; color: white; box-shadow: 0 0 15px rgba(0, 162, 255, 0.3);" onclick="addWater()">Add 500ml</button>
+        <div style="margin-top: 15px; font-size: 11px; opacity: 0.3;" onclick="resetWater()">Reset Hydration</div>
     </div>
 </div>
 
 <div id="goals" class="container">
     <div class="card">
-        <h3>My Elite Goals</h3>
-        <ul style="list-style: none; padding: 0; line-height: 2;">
-            <li>✅ 50 Pull-ups Daily</li>
-            <li>✅ Cricket Drills: 2 Hours</li>
-            <li>✅ 4L Water Intake</li>
-            <li>✅ Income Tax Dept Prep</li>
-        </ul>
-    </div>
-    <div class="card" style="text-align:center; opacity: 0.5; font-size: 12px;">
-        <p>PrimeFit V2.0 | Developed by You</p>
+        <h3>Elite Targets</h3>
+        <div class="log-item"><span>Pull-ups Daily</span><b>50</b></div>
+        <div class="log-item"><span>Cricket Practice</span><b>2 Hrs</b></div>
+        <div class="log-item"><span>Water Intake</span><b>4L</b></div>
+        <div class="log-item" style="border: 1px solid var(--neon);"><span>Income Tax Prep</span><b>PRO</b></div>
     </div>
 </div>
 
-<div class="nav-bar">
+<nav class="nav-bar">
     <div class="nav-item active" onclick="showTab('workout', this)">
-        <span class="nav-icon">🏠</span><span>Workout</span>
+        <span class="nav-icon">⚡</span>Activity
     </div>
     <div class="nav-item" onclick="showTab('water', this)">
-        <span class="nav-icon">💧</span><span>Water</span>
+        <span class="nav-icon">💧</span>Hydrate
     </div>
     <div class="nav-item" onclick="showTab('goals', this)">
-        <span class="nav-icon">🎯</span><span>Goals</span>
+        <span class="nav-icon">🎯</span>Targets
     </div>
-</div>
+</nav>
 
 <script>
-    document.getElementById('curDate').innerText = new Date().toDateString();
+    document.getElementById('dateDisp').innerText = new Date().toDateString().toUpperCase();
 
     function showTab(tabId, el) {
         document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
@@ -96,50 +207,42 @@
         el.classList.add('active');
     }
 
-    // Workout Logic (Using your original key: primefit_logs)
+    // Workout Logic
     let workouts = JSON.parse(localStorage.getItem('primefit_logs')) || [];
-    
     function saveWorkout() {
         const name = document.getElementById('exName').value;
         const reps = document.getElementById('exReps').value;
         if(name && reps) {
-            workouts.push({name: name, count: reps});
+            workouts.push({name, count: reps});
             localStorage.setItem('primefit_logs', JSON.stringify(workouts));
             renderWorkouts();
             document.getElementById('exName').value = '';
             document.getElementById('exReps').value = '';
         }
     }
-
     function renderWorkouts() {
         const div = document.getElementById('workoutLogs');
-        if(workouts.length === 0) {
-            div.innerHTML = '<p style="font-size:12px; opacity:0.5;">No workouts yet.</p>';
-            return;
-        }
         div.innerHTML = workouts.slice().reverse().map(w => `
             <div class="log-item">
-                <span>${w.name || w.exercise}</span>
-                <b>${w.count || w.reps} Reps</b>
+                <span>${w.name}</span>
+                <span style="color:var(--neon); font-weight:700;">${w.count}</span>
             </div>
         `).join('');
     }
 
     // Water Logic
     let water = parseFloat(localStorage.getItem('primefit_water')) || 0;
+    function updateWaterUI() {
+        document.getElementById('waterVal').innerText = water.toFixed(1) + "L";
+        const offset = 440 - (Math.min(water, 4) / 4) * 440;
+        document.getElementById('waterCircle').style.strokeDashoffset = offset;
+    }
     function addWater() {
         water += 0.5;
         localStorage.setItem('primefit_water', water);
         updateWaterUI();
     }
-    function resetWater() { 
-        if(confirm("Reset water count?")) {
-            water = 0; 
-            localStorage.setItem('primefit_water', 0); 
-            updateWaterUI(); 
-        }
-    }
-    function updateWaterUI() { document.getElementById('waterDisplay').innerText = water + " L"; }
+    function resetWater() { water = 0; localStorage.setItem('primefit_water', 0); updateWaterUI(); }
 
     renderWorkouts();
     updateWaterUI();
@@ -147,4 +250,3 @@
 
 </body>
 </html>
-
