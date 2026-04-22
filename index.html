@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrimeFit | Elite Tracker</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --accent-color: #ccff00;
+            --text-color: #ffffff;
+            --card-bg: #2d2d2d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        h1 { color: var(--accent-color); margin: 0; font-size: 24px; text-transform: uppercase; letter-spacing: 2px; }
+
+        .card {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+        }
+
+        input { background: #3d3d3d; color: white; }
+
+        button {
+            background-color: var(--accent-color);
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover { transform: scale(1.02); opacity: 0.9; }
+
+        .log-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #444;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        .log-item span { color: var(--accent-color); font-weight: bold; }
+        h3 { margin-top: 0; font-size: 18px; border-left: 4px solid var(--accent-color); padding-left: 10px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>PrimeFit</h1>
+        <div id="date" style="font-size: 12px; opacity: 0.7;"></div>
+    </header>
+
+    <div class="card">
+        <h3>LOG WORKOUT</h3>
+        <input type="text" id="exercise" placeholder="Exercise (e.g. Pull-ups)">
+        <input type="number" id="reps" placeholder="Reps / Count">
+        <button onclick="addLog()">SAVE PROGRESS</button>
+    </div>
+
+    <div class="card">
+        <h3>RECENT ACTIVITY</h3>
+        <div id="logList">
+            </div>
+        <button onclick="clearLogs()" style="background: transparent; color: #ff4444; font-size: 12px; margin-top: 20px;">Clear All Data</button>
+    </div>
+
+    <script>
+        document.getElementById('date').innerText = new Date().toDateString();
+
+        let logs = JSON.parse(localStorage.getItem('primefit_logs')) || [];
+
+        function displayLogs() {
+            const logList = document.getElementById('logList');
+            if (logs.length === 0) {
+                logList.innerHTML = '<p style="opacity:0.5; font-size:12px;">No workouts logged yet.</p>';
+                return;
+            }
+            logList.innerHTML = '';
+            logs.slice().reverse().forEach(log => {
+                logList.innerHTML += `
+                    <div class="log-item">
+                        <div>${log.name}</div>
+                        <span>${log.count} Reps</span>
+                    </div>
+                `;
+            });
+        }
+
+        function addLog() {
+            const name = document.getElementById('exercise').value;
+            const count = document.getElementById('reps').value;
+
+            if(name && count) {
+                logs.push({ name, count, date: new Date().toISOString() });
+                localStorage.setItem('primefit_logs', JSON.stringify(logs));
+                displayLogs();
+                document.getElementById('exercise').value = '';
+                document.getElementById('reps').value = '';
+            } else {
+                alert("Bhai, exercise aur reps dono bharna zaroori hai!");
+            }
+        }
+
+        function clearLogs() {
+            if(confirm("Kya aap saara data delete karna chahte hain?")) {
+                localStorage.clear();
+                logs = [];
+                displayLogs();
+            }
+        }
+
+        displayLogs();
+    </script>
+</body>
+  </html>
+  
